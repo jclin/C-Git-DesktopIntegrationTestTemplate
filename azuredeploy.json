@@ -225,7 +225,7 @@
                         "autoUpgradeMinorVersion":false,
                         "settings": {
                             "fileUris": [
-                            "https://github.com/jclin/DesktopIntegrationTestTemplate/Enable-PSRemoting.ps1"
+                            "https://github.com/jclin/DesktopIntegrationTestTemplate/blob/master/Enable-PSRemoting.ps1"
                             ],
                             "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File Enable-PSRemoting.ps1"
                         }
