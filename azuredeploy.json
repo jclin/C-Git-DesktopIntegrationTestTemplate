@@ -212,7 +212,7 @@
             "resources": [
                 {
                     "type": "Microsoft.Compute/virtualMachines/extensions",
-                    "name": "[variables('scriptExtensionsName')]",
+                    "name": "[concat(variables('vmName'), '/', variables('scriptExtensionsName'))]",
                     "apiVersion": "[variables('apiVersion')]",
                     "location": "[resourceGroup().location]",
                     "dependsOn": [
