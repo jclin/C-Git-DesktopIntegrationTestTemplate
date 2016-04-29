@@ -54,7 +54,8 @@
         "newStorageAccountName": "[concat(uniqueString(resourceGroup().id),'winrmsa')]",
         "powerShellRemotingPort" : "5985",
         "remoteDesktopPort" : "3389",
-        "networkSecurityGroupName" : "Network-Security-Group"
+        "networkSecurityGroupName" : "Network-Security-Group",
+        "scriptExtensionsName": "Script-Extensions"
     },
     "resources": [
         {
@@ -207,7 +208,30 @@
                         }
                     ]
                 }
-            }
+            },
+            "resources": [
+                {
+                    "type": "Microsoft.Compute/virtualMachines/extensions",
+                    "name": "[variables('scriptExtensionsName')]",
+                    "apiVersion": "[variables('apiVersion')]",
+                    "location": "[resourceGroup().location]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.7",
+                        "autoUpgradeMinorVersion":false,
+                        "settings": {
+                            "fileUris": [
+                            "https://github.com/jclin/DesktopIntegrationTestTemplate/Enable-PSRemoting.ps1"
+                            ],
+                            "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File Enable-PSRemoting.ps1"
+                        }
+                    }
+                }
+            ]
         }
     ]
 }
