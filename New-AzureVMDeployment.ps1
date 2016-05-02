@@ -21,9 +21,12 @@ param
 $templateFile = ".\azuredeploy.json"
 $templateParamterFile = ".\azuredeploy.parameters.json"
 
+# TODO: This should be probably stored in a file as an encrypted string
+$passwordKey = (65,82,84,73,67,85,76,65,84,69,8,8,8,8,8,8)
+
 function Get-SecurePassword([string] $PasswdPath)
 {
-    return ConvertTo-SecureString (Get-Content -Path $PasswdPath)
+    return ConvertTo-SecureString (Get-Content -Path $PasswdPath) -Key $passwordKey
 }
 
 function Login-AzureAccount([string] $UserName, [System.Security.SecureString] $SecurePassword, [string] $SubscriptionId)
