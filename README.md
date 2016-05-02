@@ -2,6 +2,7 @@
 
 ## About
 This repo is an experiment in automating the deployment of a VM onto Azure. Specifically, the deployment:
+
 1. Installs a Windows 10 Enterprise image.
 2. Binds a public IP address for the VM with fully qualified domain name.
 3. Sets up a storage account to install the VM.
