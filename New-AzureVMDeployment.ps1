@@ -18,6 +18,14 @@ param
     [string] $ResourceGroupLocation = "West US"
 )
 
+# Work-around for a PShell bug where the exit code is always 0 when running PShell with the -File parameter
+# See: http://stackoverflow.com/questions/15777492/why-are-my-powershell-exit-codes-always-0
+trap
+{
+    Write-Error -Message ($_ | Format-List -Force | Out-String)
+    exit 1
+}
+
 $templateFile = ".\azuredeploy.json"
 $templateParamterFile = ".\azuredeploy.parameters.json"
 
@@ -58,6 +66,20 @@ function New-AzureResourceGroup([string] $ResourceGroupName, [string] $ResourceG
     {
         throw "Provisioning failed for resource group $ResourceGroupName at $ResourceGroupLocation"
     }
+}
+
+function Remove-AzureResourceGroup([string] $ResourceGroupName)
+{
+    Write-Debug -Message "Removing resource group '$ResourceGroupName'"
+
+    $existingResourceGroup = Find-AzureRmResourceGroup -Tag @{ Name="Purpose";Value="Integration Testing" }
+    if (!$existingResourceGroup)
+    {
+        Write-Debug -Message "Resource group '$ResourceGroupName' doesn't exist, no removal needed"
+        return
+    }
+
+    Remove-AzureRmResourceGroup -Name $ResourceGroupName -Force
 }
 
 function New-AzureResourceGroupDeployment([string] $ResourceGroupName, [string] $TemplateFile, [string] $TemplateParameterFile)
@@ -114,9 +136,8 @@ try
 }
 catch
 {
-    Write-Debug -Message $_.Exception
-    Write-Debug -Message "Deleting the resource group '$ResourceGroupName'"
-    Remove-AzureRmResourceGroup -Name $ResourceGroupName -Force
+    Write-Debug -Message "An error ocurred for deployment. '$ResourceGroupName' will be deleted..."
+    Remove-AzureResourceGroup $ResourceGroupName
 
-    throw $_.Exception
+    throw
 }
