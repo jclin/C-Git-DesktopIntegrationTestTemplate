@@ -111,7 +111,7 @@ try
 }
 catch
 {
-    Write-Debug -Message ($_.Exception | Format-List -Force)
+    Write-Debug -Message $_.Exception
     Write-Debug -Message "Deleting the resource group '$ResourceGroupName'"
     Remove-AzureRmResourceGroup -Name $ResourceGroupName -Force
 
