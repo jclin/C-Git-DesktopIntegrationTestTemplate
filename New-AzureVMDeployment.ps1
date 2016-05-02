@@ -94,7 +94,7 @@ function Add-VMDomainNameToTrustedHostsList([string] $domainName, [string] $Reso
 
 $ErrorActionPreference = "Stop"
 # Uncomment the line below to view debug output
-# $DebugPreference = "Continue"
+$DebugPreference = "Continue"
 try
 {
     Set-StrictMode -Version Latest
