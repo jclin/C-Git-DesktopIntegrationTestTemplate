@@ -102,6 +102,12 @@ function Add-VMDomainNameToTrustedHostsList([string] $domainName)
 {
     Write-Debug -Message "Domain name of the VM to add is '$domainName'"
 
+    if ((Get-Item WSMan:localhost\Client\TrustedHosts).Value.CompareTo("*") -eq 0)
+    {
+        Write-Debug "The client trusts all hosts ('*' was specified), no need to add '$domainName' to the list"
+        return;
+    }
+
     $currentTrustedHostsArray = (Get-Item WSMan:localhost\Client\TrustedHosts).Value -split ","
 
     if ($currentTrustedHostsArray.Contains($domainName))
