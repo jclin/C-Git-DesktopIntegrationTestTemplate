@@ -98,7 +98,7 @@ function Get-VMDomainName([string] $ResourceGroupName)
     return ((Get-AzureRmPublicIpAddress -ResourceGroupName $ResourceGroupName).DnsSettings.Fqdn)
 }
 
-function Add-VMDomainNameToTrustedHostsList([string] $domainName, [string] $ResourceGroupName)
+function Add-VMDomainNameToTrustedHostsList([string] $domainName)
 {
     Write-Debug -Message "Domain name of the VM to add is '$domainName'"
 
@@ -110,11 +110,8 @@ function Add-VMDomainNameToTrustedHostsList([string] $domainName, [string] $Reso
         return;
     }
 
-    $trustedHostsArray = $currentTrustedHostsArray += $domainName
-
-    Set-Item WSMan:\localhost\Client\TrustedHosts -Value ($trustedHostsArray -join ",") -Force
-    $currentTrustedHostsString = (Get-Item WSMan:localhost\Client\TrustedHosts).Value
-    Write-Debug -Message "Added VM's domain to the list of trusted hosts. The list is now= '$currentTrustedHostsString'"
+    Set-Item WSMan:\localhost\Client\TrustedHosts $domainName -Concatenate -Force
+    Write-Debug -Message "Added '$domainName' to the trusted hosts list"
 }
 
 $ErrorActionPreference = "Stop"
@@ -132,11 +129,11 @@ try
     New-AzureResourceGroupDeployment $ResourceGroupName $templateFile $templateParamterFile
 
     $vmDomainName = Get-VMDomainName $ResourceGroupName
-    Add-VMDomainNameToTrustedHostsList $vmDomainName $ResourceGroupName
+    Add-VMDomainNameToTrustedHostsList $vmDomainName
 }
 catch
 {
-    Write-Debug -Message "An error ocurred for deployment. '$ResourceGroupName' will be deleted..."
+    Write-Debug -Message "An error occurred for deployment. '$ResourceGroupName' will be deleted..."
     Remove-AzureResourceGroup $ResourceGroupName
 
     throw
