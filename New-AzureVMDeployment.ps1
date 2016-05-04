@@ -25,8 +25,8 @@ trap
     # Write-Error -Message ($_ | Format-List -Force | Out-String)
     Write-Output ($_ | Format-List -Force | Out-String)
 
-    # exit 1
-    $Host.SetShouldExit(1)
+    exit 1
+    # $Host.SetShouldExit(1)
 }
 
 $templateFile = ".\azuredeploy.json"
