@@ -22,7 +22,8 @@ param
 # See: http://stackoverflow.com/questions/15777492/why-are-my-powershell-exit-codes-always-0
 trap
 {
-    Write-Error -Message ($_ | Format-List -Force | Out-String)
+    # Write-Error -Message ($_ | Format-List -Force | Out-String)
+    Write-Output ($_ | Format-List -Force | Out-String)
 
     # exit 1
     $Host.SetShouldExit(1)
