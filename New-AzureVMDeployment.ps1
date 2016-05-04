@@ -121,21 +121,29 @@ function Add-VMDomainNameToTrustedHostsList([string] $domainName)
 }
 
 $ErrorActionPreference = "Stop"
+
+# Ensures any errors encountered are from within this script
+$Error.Clear()
+
 # Uncomment the line below to view debug output
 $DebugPreference = "Continue"
+
 try
 {
     Set-StrictMode -Version Latest
 
-    $securePassword = Get-SecurePassword $PasswordFilePath
-    Login-AzureAccount $UserName $securePassword $SubscriptionId
+    # jclin: Purposely throwing an error to get TC builds to actually fail
+    1/0
 
-    New-AzureResourceGroup $ResourceGroupName $ResourceGroupLocation
+    # $securePassword = Get-SecurePassword $PasswordFilePath
+    # Login-AzureAccount $UserName $securePassword $SubscriptionId
 
-    New-AzureResourceGroupDeployment $ResourceGroupName $templateFile $templateParamterFile
+    # New-AzureResourceGroup $ResourceGroupName $ResourceGroupLocation
 
-    $vmDomainName = Get-VMDomainName $ResourceGroupName
-    Add-VMDomainNameToTrustedHostsList $vmDomainName
+    # New-AzureResourceGroupDeployment $ResourceGroupName $templateFile $templateParamterFile
+
+    # $vmDomainName = Get-VMDomainName $ResourceGroupName
+    # Add-VMDomainNameToTrustedHostsList $vmDomainName
 }
 catch
 {
