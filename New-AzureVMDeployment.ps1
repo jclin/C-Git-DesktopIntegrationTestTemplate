@@ -22,11 +22,10 @@ param
 # See: http://stackoverflow.com/questions/15777492/why-are-my-powershell-exit-codes-always-0
 trap
 {
-    # Write-Error -Message ($_ | Format-List -Force | Out-String)
+    # See: https://confluence.jetbrains.com/display/TCD9/PowerShell
     Write-Output ($_ | Format-List -Force | Out-String)
 
     exit 1
-    # $Host.SetShouldExit(1)
 }
 
 $templateFile = ".\azuredeploy.json"
@@ -135,23 +134,20 @@ try
 {
     Set-StrictMode -Version Latest
 
-    # jclin: Purposely throwing an error to get TC builds to actually fail
-    1/0
+    $securePassword = Get-SecurePassword $PasswordFilePath
+    Login-AzureAccount $UserName $securePassword $SubscriptionId
 
-    # $securePassword = Get-SecurePassword $PasswordFilePath
-    # Login-AzureAccount $UserName $securePassword $SubscriptionId
+    New-AzureResourceGroup $ResourceGroupName $ResourceGroupLocation
 
-    # New-AzureResourceGroup $ResourceGroupName $ResourceGroupLocation
+    New-AzureResourceGroupDeployment $ResourceGroupName $templateFile $templateParamterFile
 
-    # New-AzureResourceGroupDeployment $ResourceGroupName $templateFile $templateParamterFile
-
-    # $vmDomainName = Get-VMDomainName $ResourceGroupName
-    # Add-VMDomainNameToTrustedHostsList $vmDomainName
+    $vmDomainName = Get-VMDomainName $ResourceGroupName
+    Add-VMDomainNameToTrustedHostsList $vmDomainName
 }
 catch
 {
-    # Write-Debug -Message "An error occurred for deployment. '$ResourceGroupName' will be deleted..."
-    # Remove-AzureResourceGroup $ResourceGroupName
+    Write-Warning -Message "An error occurred for deployment. '$ResourceGroupName' will be deleted..."
+    Remove-AzureResourceGroup $ResourceGroupName
 
     throw
 }
