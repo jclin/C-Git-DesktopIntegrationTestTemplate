@@ -22,8 +22,11 @@ param
 # See: http://stackoverflow.com/questions/15777492/why-are-my-powershell-exit-codes-always-0
 trap
 {
-    Write-Error -Message ($_ | Format-List -Force | Out-String)
-    exit 1
+    # Write-Error -Message ($_ | Format-List -Force | Out-String)
+    Write-Output ($_ | Format-List -Force | Out-String)
+
+    # exit 1
+    $Host.SetShouldExit(1)
 }
 
 $templateFile = ".\azuredeploy.json"
@@ -147,8 +150,8 @@ try
 }
 catch
 {
-    Write-Debug -Message "An error occurred for deployment. '$ResourceGroupName' will be deleted..."
-    Remove-AzureResourceGroup $ResourceGroupName
+    # Write-Debug -Message "An error occurred for deployment. '$ResourceGroupName' will be deleted..."
+    # Remove-AzureResourceGroup $ResourceGroupName
 
     throw
 }
