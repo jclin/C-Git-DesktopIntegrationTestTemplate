@@ -32,10 +32,10 @@ function Remove-AzureVMDeployment
         $securePassword = Get-SecurePassword -PasswdPath $PasswordFilePath -PasswordKey $script:PasswordKey
         Login-AzureAccount -UserName $UserName -SecurePassword $securePassword -SubscriptionId $SubscriptionId
 
-        Remove-AzureResourceGroup $ResourceGroupName
-
         $vmDomainName = Get-VMDomainName $ResourceGroupName
-        Add-VMDomainNameToTrustedHostsList $vmDomainName
+        Remove-VMDomainNameFromTrustedHostsList $vmDomainName
+
+        Remove-AzureResourceGroup $ResourceGroupName
     }
     catch
     {
