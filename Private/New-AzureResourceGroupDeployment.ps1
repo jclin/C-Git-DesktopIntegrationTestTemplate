@@ -14,7 +14,7 @@ function New-AzureResourceGroupDeployment
 
     Write-Debug -Message "Deploying resource group '$ResourceGroupName' at '$ResourceGroupLocation'"
 
-    $deployment = New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParamterFile -Force
+    $deployment = New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile -Force
     if ($deployment.ProvisioningState -ne "Succeeded")
     {
         throw "Failed to deploy the VM to the $ResourceGroupName resource group"
