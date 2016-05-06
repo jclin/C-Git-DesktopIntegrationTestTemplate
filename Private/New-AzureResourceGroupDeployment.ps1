@@ -12,7 +12,7 @@ function New-AzureResourceGroupDeployment
         [string] $TemplateParameterFile
     )
 
-    Write-Debug -Message "Deploying resource group '$ResourceGroupName' at '$ResourceGroupLocation'"
+    Write-Output "Deploying resource group '$ResourceGroupName' at '$ResourceGroupLocation'"
 
     $deployment = New-AzureRmResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile $TemplateFile -TemplateParameterFile $TemplateParameterFile -Force
     if ($deployment.ProvisioningState -ne "Succeeded")

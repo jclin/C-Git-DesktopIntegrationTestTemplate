@@ -7,12 +7,12 @@ function Remove-AzureResourceGroup
         [string] $ResourceGroupName
     )
 
-    Write-Debug -Message "Removing resource group '$ResourceGroupName'"
+    Write-Output "Removing resource group '$ResourceGroupName'"
 
     $existingResourceGroup = Find-AzureRmResourceGroup -Tag @{ Name="Purpose";Value="Integration Testing" }
     if (!$existingResourceGroup)
     {
-        Write-Debug -Message "Resource group '$ResourceGroupName' doesn't exist, no removal needed"
+        Write-Output "Resource group '$ResourceGroupName' doesn't exist, no removal needed"
         return
     }
 
