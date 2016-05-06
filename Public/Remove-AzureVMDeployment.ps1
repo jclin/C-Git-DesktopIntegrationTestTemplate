@@ -23,8 +23,6 @@ function Remove-AzureVMDeployment
     # Ensures any errors encountered are from within this script
     $Error.Clear()
 
-    $DebugPreference = "Continue"
-
     try
     {
         Set-StrictMode -Version Latest

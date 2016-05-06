@@ -13,7 +13,7 @@ function Login-AzureAccount
         [string] $SubscriptionId
     )
 
-    Write-Debug -Message "Logging into Azure account as '$UserName' with subscription id='$SubscriptionId'"
+    Write-Output "Logging into Azure account as '$UserName' with subscription id='$SubscriptionId'"
 
     $credentials = New-Object System.Management.Automation.PSCredential($UserName, $SecurePassword)
 

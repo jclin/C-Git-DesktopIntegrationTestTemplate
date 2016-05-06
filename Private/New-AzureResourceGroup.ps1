@@ -9,7 +9,7 @@ function New-AzureResourceGroup
         [string] $ResourceGroupLocation = "West US"
     )
 
-    Write-Debug -Message "Creating resource group '$ResourceGroupName' at '$ResourceGroupLocation' to contain the VM and dependent resources"
+    Write-Output "Creating resource group '$ResourceGroupName' at '$ResourceGroupLocation' to contain the VM and dependent resources"
 
     $existingResourceGroup = Find-AzureRmResourceGroup -Tag @{ Name="Purpose";Value="Integration Testing" }
     if ($existingResourceGroup)
