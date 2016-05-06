@@ -14,12 +14,6 @@
                 "description": "Password for the Virtual Machine."
             }
         },
-        "dnsLabelPrefix": {
-            "type": "string",
-            "metadata": {
-                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
-            }
-        },
         "windowsOSVersion": {
             "type": "string",
             "defaultValue": "10-Enterprise-N",
@@ -75,7 +69,7 @@
             "properties": {
                 "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('dnsLabelPrefix')]"
+                    "domainNameLabel": "[concat('articulate-', toLower(resourceGroup().name))]"
                 }
             }
         },
