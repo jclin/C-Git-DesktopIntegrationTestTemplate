@@ -11,13 +11,13 @@ function New-AzureResourceGroup
 
     Write-Output "Creating resource group '$ResourceGroupName' at '$ResourceGroupLocation' to contain the VM and dependent resources"
 
-    $existingResourceGroup = Find-AzureRmResourceGroup -Tag @{ Name="Purpose";Value="Integration Testing" }
+    $existingResourceGroup = Find-AzureRmResourceGroup -Tag @{ Name = $ResourceGroupName }
     if ($existingResourceGroup)
     {
         throw "Resource group '$ResourceGroupName' at '$ResourceGroupLocation' already exists"
     }
 
-    $resourceGroup = New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Tag @{ Name="Purpose";Value="Integration Testing" } -Force
+    $resourceGroup = New-AzureRmResourceGroup -Name $ResourceGroupName -Location $ResourceGroupLocation -Tag @{ Name = $ResourceGroupName } -Force
     if (!$resourceGroup)
     {
         throw "Failed to create resource group '$ResourceGroupName' at '$ResourceGroupLocation'"
