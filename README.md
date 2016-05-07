@@ -16,7 +16,7 @@ Second, Powershell Remoting is enabled on the VM. To do so, the `Enable-PSRemoti
 
 Finally, the `New-AzureVMDeployment.ps1` script does the heavy lifting.
 
-## Running the Deployment Script
+## Running the Scripts
 
 ### Prerequisites
 * An Azure account with administrator rights is required.
@@ -24,19 +24,11 @@ Finally, the `New-AzureVMDeployment.ps1` script does the heavy lifting.
 * Install the Azure Powershell module. Go to the [Azure Downloads](https://azure.microsoft.com/en-us/downloads/) page. The installer should be under the "Command-line tools" section.
 
 ### Script Parameters
-`New-AzureVMDeployment.ps1` has some mandatory parameters:
-* `-UserName` is the username of an Azure account. It needs to have admin rights.
-* `-PasswordFilePath` is the path to a file that has your Azure account password stored as an encrypted standard string. See the *Setting up a password file* section for instructions.
+Both `Deploy-AzureVM.ps1` and `Remove-AzureVM.ps1` have some mandatory parameters:
+* `-CredentialsName` is internet address of a Generic Credentials instance on the local machine. You can generate one using the Credential Manager.
 * `-SubscriptionId` is the subscription ID assigned to the Azure account.
 * `-ResourceGroupName` can be thought of as the name of the deployment.
 
-**This script must be run with administrator rights!**
+`Deploy-AzureVM.ps1` will deploy an Azure Resource Group that contains a running VM instance, while `Remove-AzureVM.ps1` will remove a Resource Group and everything it contains.
 
-### Creating a password file
-The deployment script logs into Azure. To ensure security, the script expects the password of the Azure account to be stored in a file as an encrypted standard string.
-
-To create a password file, start a Powershell session and run:
-```powershell
-Read-Host "Enter Password" -AsSecureString |  ConvertFrom-SecureString | Out-File "<path to file here>"
-```
-Replace `<path to file here>` with the desired file location
+**These scripts must be run with administrator rights!**
