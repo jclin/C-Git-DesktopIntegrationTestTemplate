@@ -26,7 +26,7 @@ try
 {
     Set-StrictMode -Version Latest
 
-    Import-Module .\Modules\StoredCredential\StoredCredential.psm1
+    Import-Module .\Modules\StoredCredential\StoredCredential.psm1 -Verbose
     Import-Module .\Modules\DesktopIntegrationTesting\DesktopIntegrationTesting.psm1
 
     $credentials = Get-StoredCredential -Name $CredentialsName
