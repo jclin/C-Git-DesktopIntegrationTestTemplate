@@ -32,3 +32,12 @@ Both `Deploy-AzureVM.ps1` and `Remove-AzureVM.ps1` have some mandatory parameter
 `Deploy-AzureVM.ps1` will deploy an Azure Resource Group that contains a running VM instance, while `Remove-AzureVM.ps1` will remove a Resource Group and everything it contains.
 
 **These scripts must be run with administrator rights!**
+
+### Creating a password file
+The deployment script logs into Azure. To ensure security, the script expects the password of the Azure account to be stored in a file as an encrypted standard string.
+
+To create a password file, start a Powershell session and run:
+```powershell
+Read-Host "Enter Password" -AsSecureString |  ConvertFrom-SecureString | Out-File "<path to file here>"
+```
+Replace `<path to file here>` with the desired file location

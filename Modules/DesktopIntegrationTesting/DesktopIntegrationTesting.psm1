@@ -1,5 +1,7 @@
 # Initialize module wide variables. These variables must be referenced with script scoping (i.e., $script:PasswordKey)
 
+# TODO: This should be probably stored in a file as an encrypted string
+$PasswordKey = (65,82,84,73,67,85,76,65,84,69,8,8,8,8,8,8)
 $TemplateFile = "$PSScriptRoot\azuredeploy.json"
 $TemplateParameterFile = "$PSScriptRoot\azuredeploy.parameters.json"
 
