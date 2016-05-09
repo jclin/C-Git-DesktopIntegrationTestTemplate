@@ -2,8 +2,11 @@
 param
 (
     [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
-    [string] $CredentialsName,
+    [string] $UserName,
+
+    [Parameter(Mandatory = $true)]
+    [ValidateScript({ Test-Path -Path $_ -PathType Leaf })]
+    [string] $PasswordFilePath,
 
     [Parameter(Mandatory = $true)]
     [string] $SubscriptionId,
@@ -22,11 +25,9 @@ try
 {
     Set-StrictMode -Version Latest
 
-    Import-Module .\Modules\StoredCredential\StoredCredential.psm1
     Import-Module .\Modules\DesktopIntegrationTesting\DesktopIntegrationTesting.psm1
 
-    $credentials = Get-StoredCredential -Name $CredentialsName
-    Remove-AzureVMDeployment -Credentials $credentials -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName
+    Remove-AzureVMDeployment -UserName $UserName -PasswordFilePath $PasswordFilePath -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName
 }
 catch
 {
@@ -36,6 +37,5 @@ catch
 }
 finally
 {
-    Remove-Module StoredCredential
     Remove-Module DesktopIntegrationTesting
 }
