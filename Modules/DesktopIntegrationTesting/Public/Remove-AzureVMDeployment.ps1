@@ -4,11 +4,8 @@ function Remove-AzureVMDeployment
     param
     (
         [Parameter(Mandatory = $true)]
-        [string] $UserName,
-
-        [Parameter(Mandatory = $true)]
-        [ValidateScript({ Test-Path -Path $_ -PathType Leaf })]
-        [string] $PasswordFilePath,
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential] $Credentials,
 
         [Parameter(Mandatory = $true)]
         [string] $SubscriptionId,
@@ -27,8 +24,7 @@ function Remove-AzureVMDeployment
     {
         Set-StrictMode -Version Latest
 
-        $securePassword = Get-SecurePassword -PasswdPath $PasswordFilePath -PasswordKey $script:PasswordKey
-        Login-AzureAccount -UserName $UserName -SecurePassword $securePassword -SubscriptionId $SubscriptionId
+        Login-AzureRmAccount -Credential $Credentials -SubscriptionId $SubscriptionId
 
         $vmDomainName = Get-VMDomainName $ResourceGroupName
         Remove-VMDomainNameFromTrustedHostsList $vmDomainName

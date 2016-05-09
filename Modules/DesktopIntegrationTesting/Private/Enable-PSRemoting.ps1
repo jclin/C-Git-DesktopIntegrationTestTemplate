@@ -1,3 +1,5 @@
+$ErrorActionPreference = "Stop"
+
 try
 {
     Write-Output "Setting all network connection profiles to Private"
@@ -8,6 +10,6 @@ try
 }
 catch
 {
-    Write-Output $_.Exception
+    Write-Output "Error enabling PS Remoting on the VM" + $_.Exception.Message
     throw
 }
