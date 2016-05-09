@@ -24,6 +24,8 @@ function Remove-AzureVMDeployment
     {
         Set-StrictMode -Version Latest
 
+        Disable-AzureDataCollection
+
         Login-AzureRmAccount -Credential $Credentials -SubscriptionId $SubscriptionId
 
         $vmDomainName = Get-VMDomainName $ResourceGroupName

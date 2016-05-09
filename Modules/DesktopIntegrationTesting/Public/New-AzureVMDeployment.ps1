@@ -26,6 +26,8 @@ function New-AzureVMDeployment
     {
         Set-StrictMode -Version Latest
 
+        Disable-AzureDataCollection
+
         Login-AzureRmAccount -Credential $Credentials -SubscriptionId $SubscriptionId
 
         New-AzureResourceGroup -ResourceGroupName $ResourceGroupName -ResourceGroupLocation $ResourceGroupLocation
